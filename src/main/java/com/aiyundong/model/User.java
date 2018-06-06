@@ -5,8 +5,12 @@ import java.io.Serializable;
 public class User extends BasicEntity implements Serializable {
 
     private int id;  //用户ID
-    private String user_name;  //用户登录名(手机号)
-    private String invite_code;  //用户邀请码
+    private String username;  //用户登录名(手机号)
+    private String password;  //用户邀请码
+    private Integer salary;
+    private Integer age;
+    // 状态 0，1 as 删除，存在
+    private Integer state;
 
     public int getId() {
         return id;
@@ -16,19 +20,43 @@ public class User extends BasicEntity implements Serializable {
         this.id = id;
     }
 
-    public String getUser_name() {
-        return user_name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getInvite_code() {
-        return invite_code;
+    public String getPassword() {
+        return password;
     }
 
-    public void setInvite_code(String invite_code) {
-        this.invite_code = invite_code;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Integer getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Integer salary) {
+        this.salary = salary;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
     }
 }
