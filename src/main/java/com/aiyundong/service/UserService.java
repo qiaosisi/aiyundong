@@ -1,9 +1,9 @@
 package com.aiyundong.service;
 
 import com.aiyundong.mapper.UserMapper;
+import com.aiyundong.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserDetailsService{
+public class UserService implements UserDetailsService{
     @Autowired
     private UserMapper userMapper;
 
@@ -34,5 +34,9 @@ public class UserServiceImpl implements UserDetailsService{
         List list = new ArrayList<>();
         userMapper.findAll().iterator().forEachRemaining(list::add);
         return list;
+    }
+
+    public void delete(Long id){
+        userMapper.delete(id);
     }
 }
