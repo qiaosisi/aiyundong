@@ -39,4 +39,8 @@ public class UserService implements UserDetailsService{
     public void delete(Long id){
         userMapper.delete(id);
     }
+
+    public User save(User user){
+        return userMapper.save(user);
+    }
 }
