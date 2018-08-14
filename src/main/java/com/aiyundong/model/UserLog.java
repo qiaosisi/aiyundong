@@ -30,6 +30,10 @@ public class UserLog extends BasicEntity implements Serializable {
     private String operate_ip;
     // 操作时间
     private Date operate_time;
+    // 版本信息
+    private int v ;
+    // 操作状态：1、成功；2、失败；
+    private int operate_status;
 
     public int getId() {
         return id;
@@ -93,5 +97,29 @@ public class UserLog extends BasicEntity implements Serializable {
 
     public void setOperate_time(Date operate_time) {
         this.operate_time = operate_time;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
+    }
+
+    public int getV() {
+        return v;
+    }
+
+    public void setV(int v) {
+        this.v = v;
+    }
+
+    public int getOperate_status() {
+        return operate_status;
+    }
+
+    public void setOperate_status(int operate_status) {
+        this.operate_status = operate_status;
     }
 }

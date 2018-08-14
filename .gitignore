@@ -5,3 +5,4 @@ classes/
 *.iml
 Thumbs.db
 /out
+src/main/resources/application.properties
