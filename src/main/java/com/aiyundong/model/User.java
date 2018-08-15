@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class User extends BasicEntity implements Serializable {
 
-    private int id;  //用户ID
+    private Integer id;  //用户ID
     private String username;  //用户登录名(手机号)
     private String password;  //用户邀请码
     private Integer salary;
@@ -12,11 +12,11 @@ public class User extends BasicEntity implements Serializable {
     // 状态 0，1 as 删除，存在
     private Integer state;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
