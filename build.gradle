@@ -14,6 +14,18 @@ repositories {
     mavenCentral()
 }
 
+task prod(type: War, dependsOn: classes) {
+    baseName='lequlai'
+    def date = new Date()
+    version = date.format('yyyyMMdd')
+    classifier = 'prod'
+}
+task deploy(type: Copy, dependsOn: prod) {
+    from "build/libs"
+    into "/opt/www_build"
+    include "*.war"
+}
+
 dependencies {
     compile fileTree(dir: 'lib', include: '*.jar')
     compile('org.springframework.boot:spring-boot-starter-web')
@@ -35,7 +47,7 @@ dependencies {
     compile('dom4j:dom4j:1.6.1')
     compile('joda-time:joda-time:2.9.9')
 
-    runtime("org.springframework.boot:spring-boot-devtools")
+    //runtime("org.springframework.boot:spring-boot-devtools")
     runtime('mysql:mysql-connector-java:5.1.46')
     runtime('com.zaxxer:HikariCP:2.7.9')
     providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
