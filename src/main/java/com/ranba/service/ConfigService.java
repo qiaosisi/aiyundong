@@ -8,16 +8,16 @@ public class ConfigService {
 
     //短信验证码
     /*------------start-----------*/
-    @Value("${lequlai.msgclient.serviceurl1}")
+    @Value("${ranba.msgclient.serviceurl1}")
     private String msgclient_serviceurl1;
 
-    @Value("${lequlai.msgclient.serviceurl2}")
+    @Value("${ranba.msgclient.serviceurl2}")
     private String msgclient_serviceurl2;
 
-    @Value("${lequlai.msgclient.sn}")
+    @Value("${ranba.msgclient.sn}")
     private String msgclient_sn;
 
-    @Value("${lequlai.msgclient.password}")
+    @Value("${ranba.msgclient.password}")
     private String msgclient_password;
 
      /*------------end-----------*/
