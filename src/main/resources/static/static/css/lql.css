@@ -1,0 +1,44 @@
+@charset "utf-8";
+.k{border: 1px solid #f00}
+body{ font-size:14px;word-wrap:break-word;font-family:Arial,'\5FAE\8F6F\96C5\9ED1','Hiragino Sans GB','\534E\6587\9ED1\4F53',sans-serif;color:#262626}
+.fz-16{font-size:1.14em}
+.fz-hl{color:#FF585C !important;}
+.pos-rel{ position:relative;}
+.text-mid{ text-align:center !important;}
+
+.lql-index{width:100%;overflow:hidden;}
+.htp-s{ width:100%; height:0.5em;}
+.htp{ width:100%; height:1em;}
+.htp-l{ width:100%; height:1.5em;}
+.htp-xl{ width:100%; height:2em;}
+.lql-panel{width: 94%;max-width: 46em; margin-left:auto; margin-right:auto;overflow:hidden;}
+.lql-panel > #cutImg{width: 100%}
+.lql-pic-close{ position:absolute; right:0.2em; top:0.2em; width:1.8em; height:1.8em; z-index:999}
+		
+/*单选按钮(通用)*/
+.radio-btn{ width:100%;height:3.5em; line-height:3.5em; background-color:#F5F5F5;overflow:hidden;}
+.radio-btn .ico-radio-btn{float:left;margin-left:0.5em; margin-top:1.18em; width:1.14em;height:1.14em;display:inline-block;overflow:hidden;}
+.radio-btn .ico-radio-btn > img{width:100%; display:block}
+.radio-btn .radio-btn-txt{ float:left;margin-left:0.5em; margin-top:1.25em;height:1em; line-height:1em;display:inline-block;overflow:hidden;}
+
+.float-btn{position:fixed; bottom:0;height:4.3em; line-height:4.3em; text-align:center; width:100%; background-color:#000000;background-color:#ff585c; z-index: 999; color: #FFFFFF}
+
+.lql-img-add{display:block;width:1.7em; height:1.7em; margin-top:6.3em; margin-left:auto; margin-right:auto}
+.lql-img-print{display:block;width:5em; height:5em; margin-top:6.3em; margin-left:auto; margin-right:auto}
+.lql-img-info{background-color:#F5F5F5; height:17em;}
+
+/*数字加减按钮(通用)*/
+.num-btn{ width:100%;height:4.28em; line-height:4.28em; background-color:#F5F5F5;overflow:hidden; text-align:center}
+.num-btn .num-sub{float:left; display:inline-block; width:1.78em; margin-top:1.25em; margin-left:2.14em}
+.num-btn .num-txt{color:#555555;font-size:1.14em}
+.num-btn .num-add{float:right; display:inline-block; width:1.78em; margin-top:1.25em; margin-right:2.14em}
+
+/*打印码组件(通用)*/
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance: none !important;margin: 0; }
+.num-code{position:relative;overflow:hidden;font-size:3em; width:6.46em; height:1.8em; line-height:1.78em; background-image:url(../img/num-code-bg.png); background-repeat:no-repeat}
+.num-code .num-code-input{position:absolute; height:100%; width:100%; outline:none; background:none; background-color:transparent; background-image:none;border:none; color:rgba(255, 255, 255, 0);-webkit-appearance:none;text-indent: -100em;}
+.num-code .num-code-txt{float:left; display:inline-block; width:1.275em; height:100%; text-align:center}
+.num-code{ margin-left:auto; margin-right:auto}
+
+.qr-code{width: 14.285em ; margin: 0 auto; display: block}
+
