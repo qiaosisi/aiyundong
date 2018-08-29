@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="/static/img/apple-touch-icon.png?v=2017022001"/>
+    <link rel="icon" href="/static/img/icon.png?v=2017022001" type="image/png"/>
+    <title>燃吧管理后台</title>
+    <script src="/static/js/jquery-3.2.1.min.js"></script>
+    <script src="/static/js/jquery.form.js"></script>
+    <script src="/static/js/jquery.validate.js"></script>
+    <script src="/static/js/messages_zh.js"></script>
+    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/lql.adm.js"></script>
+    <script src="/static/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/static/js/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="/static/js/echarts.common.min.js"></script>
+    <script src="/static/summernote/summernote-bs4.js"></script>
+    <script src="/static/summernote/summernote-zh-CN.js?v=2018013112"></script>
+    <link rel="stylesheet" href="/static/css/lqlAdmin.css?v=201803080911"/>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css?v=2018013112"/>
+    <link rel="stylesheet" href="/static/css/bootstrap-datetimepicker.min.css"/>
+    <link rel="stylesheet" href="/static/summernote/summernote-bs4.css"/>
+    <script type="text/javascript">
+        $(function () {
+            //格式化时间
+            Date.prototype.Format = function (fmt) { //将蓝括号的这段要放在调用时间的上面，
+                var o = {
+                    "M+": this.getMonth() + 1, //月份
+                    "d+": this.getDate(), //日
+                    "h+": this.getHours(), //小时
+                    "m+": this.getMinutes(), //分
+                    "s+": this.getSeconds(), //秒
+                    "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                    "S": this.getMilliseconds() //毫秒
+                };
+                if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+                for (var k in o)
+                    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+                return fmt;
+            };
+        });
+    </script>
+    <style type="text/css">
+        h3 {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body style="font-size: 14px">
+<nav class="navbar navbar-expand-sm fixed-top bg-dark navbar-dark" role="navigation">
+    <div class="container-fluid">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse"
+                data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+            <a class="navbar-brand" th:href="@{/adm/index}">燃吧后台</a>
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">产品<span
+                            class="caret"></span></a>
+                    <div class="dropdown-menu">
+                        <a th:href="@{/adm/}" class="dropdown-item">新建产品和选项 </a>
+                        <div class="dropdown-divider"></div>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">人员<span
+                            class="caret"></span></a>
+                    <div class="dropdown-menu">
+                        <a th:href="@{/adm/}" class="dropdown-item">新建产品和选项 </a>
+                        <div class="dropdown-divider"></div>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">视频<span
+                            class="caret"></span></a>
+                    <div class="dropdown-menu">
+                        <a th:href="@{/adm/}" class="dropdown-item">新建产品和选项 </a>
+                        <div class="dropdown-divider"></div>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">统计<span
+                            class="caret"></span></a>
+                    <div class="dropdown-menu">
+                        <a th:href="@{/adm/}" class="dropdown-item">审核 </a>
+                        <div class="dropdown-divider"></div>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">权限管理<span
+                            class="caret"></span></a>
+                    <div class="dropdown-menu">
+                        <a th:href="@{/adm/}" class="dropdown-item">新建产品和选项 </a>
+                        <div class="dropdown-divider"></div>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+        <div class="justify-content-end">
+            <div class="navbar-nav">
+                <a class="nav-item" id="admAlertCount">
+
+                </a>
+                <a class="nav-item">
+                    <a href="javascript:void(0)" data-toggle="modal" data-target="#twoStepModal"
+                       onclick="userQRCodeGen();" class="nav-link">开启两步验证</a>
+                </a>
+                <a class="nav-item">
+                    <a href="https://www.lequlai.com" target="_blank" class="nav-link">燃吧官网</a>
+                </a>
+                <a class="nav-item">
+                    <a href="javascript:void(0)" data-toggle="modal" data-target="#changePassword"
+                       class="nav-link">修改密码</a>
+                </a>
+                <a class="nav-item">
+                    <a class="nav-link" href="javascript: $('.navbar-form').submit();"> <span>你好</span>退出</a>
+                    <form class="navbar-form" th:action="@{/adm/logout}" method="post" style="display: none">
+                    </form>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="container-main" layout:fragment="content"></div>
+<div th:class="clearfix"></div>
+<hr/>
+<!--修改密码模态框-->
+<div id="changePassword" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
+     aria-labelledby="changePasswordModal" data-backdrop="static">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="changePasswordModal">修改密码</h4>
+            </div>
+            <div class="modal-body">
+                <label>原密码：</label><input type="password" id="primaryPass">
+                <div style="height: 5px"></div>
+                <label>新密码：</label><input type="password" id="newPass">
+                <div style="height: 5px"></div>
+                <label>确认密码：</label><input type="password" id="confirmPass">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" th:onclick="'javascript:confirmChangePass()'">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--两步验证 第一步 modal start -->
+<div class="modal fade bs-example-modal-sm" id="twoStepModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title">下载谷歌身份验证器</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+                        data-target="#userQRCode" onclick="userQRCodeGenVal()">下一步
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- modal end -->
+<!--两步验证 第二步 modal start -->
+<div class="modal fade bs-example-modal-sm" id="userQRCode" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">绑定账户</h4>
+            </div>
+            <div class="modal-body">
+                <strong>打开谷歌身份验证器 → 开始设置 → 扫码</strong>
+                <div style="margin-left: 15%">
+                    <img src="" alt="用户信息" id="userInfo" width="80%"><br>
+                    <strong>或手动输入：</strong><br>
+                    <strong>账户：</strong><span id="account"></span><br>
+                    <strong>密钥：</strong><span id="secret"></span><br>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="blinddingSuc()">完成并退出</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--今日预警模态框-->
+<div class="modal fade bs-example-modal-lg" id="getTodayAlertsModal" tabindex="-1" role="dialog"
+     aria-hidden="true"
+     aria-labelledby="sendOutModalLabel" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">今日预警详细</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header bg-primary  text-white ">今日预警</div>
+                    <table class="table table-bordered table-sm" id="alertTableId">
+
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p style="color:#999;text-align:center">© 2017-2018</p>
+</body>
+</html>
