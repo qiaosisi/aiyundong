@@ -8,7 +8,7 @@ public class Message {
 
     private Integer id;
     private String phone;
-    private Integer code;
+    private String code;
     private String ip;
     private Date create_time;
 
@@ -28,14 +28,6 @@ public class Message {
         this.phone = phone;
     }
 
-    public Integer getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-
     public String getIp() {
         return ip;
     }
@@ -50,5 +42,13 @@ public class Message {
 
     public void setCreate_time(Date create_time) {
         this.create_time = create_time;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }
