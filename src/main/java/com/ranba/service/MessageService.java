@@ -16,5 +16,5 @@ public class MessageService {
     }
 
     // 每个手机当天发送短信总数
-    public int countTodayAdmMessage(String phone,String day){return messageMapper.countTodayAdmMessage(phone,day);}
+    public int countTodayAdmMessage(String phone){return messageMapper.countTodayAdmMessage(phone);}
 }

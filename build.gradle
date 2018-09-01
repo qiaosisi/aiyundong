@@ -47,7 +47,10 @@ dependencies {
     compile('dom4j:dom4j:1.6.1')
     compile('joda-time:joda-time:2.9.9')
 
-    //runtime("org.springframework.boot:spring-boot-devtools")
+    // 阿里短信
+    compile('com.aliyun:aliyun-java-sdk-core:4.0.6')
+    compile('com.aliyun:aliyun-java-sdk-dysmsapi:1.1.0')
+
     runtime('mysql:mysql-connector-java:5.1.46')
     runtime('com.zaxxer:HikariCP:2.7.9')
     providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')

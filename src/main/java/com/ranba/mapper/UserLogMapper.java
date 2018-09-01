@@ -14,7 +14,7 @@ import java.util.List;
 public interface UserLogMapper {
 
     //添加日志
-    @Insert("insert into user_log(user_id,operate_type,operate_name,operate_content,operate_status,operate_ip,operate_time,v) values(#{user_id},#{operate_type},#{operate_name},#{operate_content},#{operate_status},#{operate_ip},now(),#{v})")
+    @Insert("insert into user_log(user_id,operate_type,operate_name,operate_content,operate_status,operate_ip,operate_time) values(#{user_id},#{operate_type},#{operate_name},#{operate_content},#{operate_status},#{operate_ip},now())")
     public void insertUserLog(UserLog userLog);
 
 
