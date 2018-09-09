@@ -17,4 +17,9 @@ public class MessageService {
 
     // 每个手机当天发送短信总数
     public int countTodayAdmMessage(String phone){return messageMapper.countTodayAdmMessage(phone);}
+
+    // 根据手机号查找验证码
+    public String selectCodeByPhone(String phone){
+        return messageMapper.selectCodeByPhone(phone);
+    }
 }
