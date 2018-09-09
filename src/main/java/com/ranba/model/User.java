@@ -1,16 +1,21 @@
 package com.ranba.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class User extends BasicEntity implements Serializable {
 
-    private Integer id;  //用户ID
-    private String username;  //用户登录名(手机号)
-    private String password;  //用户邀请码
-    private Integer salary;
+    private Integer id;
+    // 用户手机号
+    private String username;
+    // 用户密码
+    private String password;
+    // 登录IP
+    private String ip;
+    // 用户年龄
     private Integer age;
-    // 状态 0，1 as 删除，存在
-    private Integer state;
+    //  创建时间
+    private Date create_time;
 
     public Integer getId() {
         return id;
@@ -36,12 +41,12 @@ public class User extends BasicEntity implements Serializable {
         this.password = password;
     }
 
-    public Integer getSalary() {
-        return salary;
+    public String getIp() {
+        return ip;
     }
 
-    public void setSalary(Integer salary) {
-        this.salary = salary;
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 
     public Integer getAge() {
@@ -52,11 +57,11 @@ public class User extends BasicEntity implements Serializable {
         this.age = age;
     }
 
-    public Integer getState() {
-        return state;
+    public Date getCreate_time() {
+        return create_time;
     }
 
-    public void setState(Integer state) {
-        this.state = state;
+    public void setCreate_time(Date create_time) {
+        this.create_time = create_time;
     }
 }

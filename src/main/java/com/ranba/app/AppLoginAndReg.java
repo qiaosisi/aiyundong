@@ -2,14 +2,10 @@ package com.ranba.app;
 
 import com.ranba.model.ApiResponse;
 import com.ranba.model.Message;
+import com.ranba.model.User;
 import com.ranba.model.UserLog;
-import com.ranba.service.AdmMessageService;
-import com.ranba.service.MessageService;
-import com.ranba.service.PushService;
-import com.ranba.service.UserLogService;
-import com.ranba.util.IpUtil;
-import com.ranba.util.RanbaSequenceUtil;
-import com.ranba.util.StringUtil;
+import com.ranba.service.*;
+import com.ranba.util.*;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -17,7 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class AppLoginAndReg {
@@ -31,6 +28,8 @@ public class AppLoginAndReg {
     MessageService messageService;
     @Autowired
     UserLogService userLogService;
+    @Autowired
+    UserService userService;
 
     /*
      * 接收登陆信息
@@ -50,12 +49,52 @@ public class AppLoginAndReg {
         }
 
         if (StringUtils.isBlank(code) || code.length() < 6){
-            logger.info("用户短信验证码错误，code：",code);
+            logger.info("用户短信验证码格式不正确，code：",code);
             apiResponse.setCode(0);
             apiResponse.setMessage("请填写正确的短信验证码");
             return apiResponse;
         }
 
+        // 查询5分钟之内的验证码
+        String sendCode = messageService.selectCodeByPhone(phone);
+        if (!code.equals(sendCode)){
+            logger.info("用户短信验证不正确，code：",code);
+            apiResponse.setCode(0);
+            apiResponse.setMessage("请填写正确的短信验证码");
+            return apiResponse;
+        }
+
+        // 查询改手机号是否注册过
+        int count = userService.selectByPhone(phone);
+        if (count == 0){
+            // 手机号未注册
+            User user = new User();
+            user.setUsername(phone);
+            user.setPassword(code);
+            user.setIp(IpUtil.getIpAddr(request));
+            userService.insert(user);
+            int user_id = user.getId();
+        }
+
+        // 生成token
+        Map<String, String> params = new HashMap<>();
+        params.put("username", "Alex123");
+        params.put("password", "password");
+        params.put("grant_type", "password");
+        String url = "http://localhost:8080/oauth/token";
+
+        HttpClientUtil https = new HttpClientUtil();
+        String resultStr = https.postToken(url, params);
+
+        Map resultMap = JsonUtil.json2Obj(resultStr, Map.class);
+        if (resultMap == null){
+            logger.info("获取token失败，手机号：",phone);
+            apiResponse.setCode(0);
+            apiResponse.setMessage("获取token失败");
+            return apiResponse;
+        }
+
+        apiResponse.setData(resultMap);
         apiResponse.setCode(1);
         return apiResponse;
     }
@@ -93,7 +132,10 @@ public class AppLoginAndReg {
 
         // 验证码
         String code = RanbaSequenceUtil.generateNumberString(6);
-        boolean flag = pushService.pushMessage(0, 2, phone , code);
+        //boolean flag = pushService.pushMessage(0, 2, phone , code);
+
+        /**test*/
+        boolean flag = true;
         if (flag) {
             // 信息表插入数据
             Message message = new Message();

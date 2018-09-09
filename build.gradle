@@ -15,7 +15,7 @@ repositories {
 }
 
 task prod(type: War, dependsOn: classes) {
-    baseName='lequlai'
+    baseName='ranba'
     def date = new Date()
     version = date.format('yyyyMMdd')
     classifier = 'prod'

@@ -43,4 +43,14 @@ public class UserService implements UserDetailsService{
     public User save(User user){
         return userMapper.save(user);
     }
+
+    // 根据手机号查找是否有该用户
+    public int selectByPhone(String phone){
+        return userMapper.selectByPhone(phone);
+    }
+
+    // 插入新用户
+    public void insert(User user){
+        userMapper.insert(user);
+    }
 }
