@@ -11,7 +11,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -64,22 +67,27 @@ public class AppLoginAndReg {
             return apiResponse;
         }
 
+        // 密码加密
+        BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
+        String bcode = bc.encode(code);
         // 查询改手机号是否注册过
         int count = userService.selectByPhone(phone);
+
+        User user = new User();
+        user.setUsername(phone);
+        user.setPassword(bcode);
         if (count == 0){
             // 手机号未注册
-            User user = new User();
-            user.setUsername(phone);
-            user.setPassword(code);
             user.setIp(IpUtil.getIpAddr(request));
             userService.insert(user);
-            int user_id = user.getId();
+        }else{
+            userService.updateUser(user);
         }
 
         // 生成token
         Map<String, String> params = new HashMap<>();
-        params.put("username", "Alex123");
-        params.put("password", "password");
+        params.put("username", phone);
+        params.put("password", code);
         params.put("grant_type", "password");
         String url = "http://localhost:8080/oauth/token";
 
@@ -132,10 +140,8 @@ public class AppLoginAndReg {
 
         // 验证码
         String code = RanbaSequenceUtil.generateNumberString(6);
-        //boolean flag = pushService.pushMessage(0, 2, phone , code);
+        boolean flag = pushService.pushMessage(0, 2, phone , code);
 
-        /**test*/
-        boolean flag = true;
         if (flag) {
             // 信息表插入数据
             Message message = new Message();

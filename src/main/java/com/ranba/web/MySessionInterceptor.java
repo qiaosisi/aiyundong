@@ -25,7 +25,7 @@ public class MySessionInterceptor extends HandlerInterceptorAdapter {
 
             if (null == user) {
                 resp.sendRedirect("/");
-                logger.info("进入拦截器");
+                logger.info("进入拦截器,但是没有用户信息");
                 return false;
             }
 

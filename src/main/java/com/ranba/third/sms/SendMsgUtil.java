@@ -5,12 +5,12 @@ import com.aliyuncs.IAcsClient;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsRequest;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
+import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.ranba.service.ConfigService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.aliyuncs.http.MethodType;
 
 public class SendMsgUtil {
 

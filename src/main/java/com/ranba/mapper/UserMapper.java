@@ -25,6 +25,9 @@ public interface UserMapper {
     int selectByPhone(String username);
 
     @Insert("INSERT INTO User (username, password, ip, age,create_time) VALUES (#{username},#{password},#{ip},#{age},now())")
-    @SelectKey(statement="SELECT LAST_INSERT_ID() AS id", keyProperty="id", before=false, resultType=java.lang.Integer.class)
     void insert(User user);
+
+    // 更新用户密码
+    @Update("UPDATE user SET password= #{password} where username = #{username}")
+    void updateUser(User user);
 }
