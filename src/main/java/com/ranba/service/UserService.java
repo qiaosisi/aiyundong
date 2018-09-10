@@ -53,4 +53,10 @@ public class UserService implements UserDetailsService{
     public void insert(User user){
         userMapper.insert(user);
     }
+
+    // 更新用户密码
+    public void updateUser(User user) {
+        userMapper.updateUser(user);
+    }
+
 }
