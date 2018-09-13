@@ -165,10 +165,13 @@ public class AppLoginAndReg {
         String token = StringUtil.parseStringParam(request.getParameter("token"));
         Map<String,Object> tokenMap = JwtUtil.parserJavaWebToken(token);
 
-        if (!tokenMap.isEmpty()){
-            apiResponse.setData(tokenMap);
-            apiResponse.setCode(1);
+        if (tokenMap == null || tokenMap.isEmpty()){
+            apiResponse.setCode(0);
+            return apiResponse;
         }
+
+        apiResponse.setData(token);
+        apiResponse.setCode(1);
         return apiResponse;
     }
 
