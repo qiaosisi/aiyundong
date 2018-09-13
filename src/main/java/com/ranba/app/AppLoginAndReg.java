@@ -12,11 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -34,7 +33,7 @@ public class AppLoginAndReg {
     @Autowired
     UserService userService;
 
-    /*
+    /**
      * 接收登陆信息
      *  */
     @PostMapping("/api/login")
@@ -71,45 +70,40 @@ public class AppLoginAndReg {
         BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
         String bcode = bc.encode(code);
         // 查询改手机号是否注册过
-        int count = userService.selectByPhone(phone);
+        User count = userService.selectByPhone(phone);
 
         User user = new User();
         user.setUsername(phone);
         user.setPassword(bcode);
-        if (count == 0){
+        // 用户ID
+        Integer userId;
+        if (count == null){
             // 手机号未注册
             user.setIp(IpUtil.getIpAddr(request));
-            userService.insert(user);
+            userId = userService.insert(user);
         }else{
             userService.updateUser(user);
+            userId = count.getId();
         }
 
-        // 生成token
-        Map<String, String> params = new HashMap<>();
-        params.put("username", phone);
-        params.put("password", code);
-        params.put("grant_type", "password");
-        String url = "http://localhost:8080/oauth/token";
+        String token = JwtUtil.createJWT(String.valueOf(userId),StringUtil.maskNumber(phone,3,6,2),2592000);
 
-        HttpClientUtil https = new HttpClientUtil();
-        String resultStr = https.postToken(url, params);
-
-        Map resultMap = JsonUtil.json2Obj(resultStr, Map.class);
-        if (resultMap == null){
+        if (token == null){
             logger.info("获取token失败，手机号：",phone);
             apiResponse.setCode(0);
             apiResponse.setMessage("获取token失败");
             return apiResponse;
         }
 
-        apiResponse.setData(resultMap);
+        apiResponse.setData(token);
         apiResponse.setCode(1);
         return apiResponse;
     }
 
-    // 发送短信验证码 返回值：  0==失败 1==成功
+    /**
+     * 发送短信验证码 返回值：  0==失败 1==成功
+     */
     @PostMapping("/api/sendCode")
-    @ResponseBody
     public ApiResponse sendCode(HttpServletRequest request){
         ApiResponse apiResponse = new ApiResponse();
         String ip = IpUtil.getIpAddr(request);
@@ -160,4 +154,23 @@ public class AppLoginAndReg {
         apiResponse.setCode(0);
         return apiResponse;
     }
+
+    /**
+     * 我的账户
+     * */
+    @GetMapping("/api/my/index")
+    public ApiResponse myIndex(HttpServletRequest request){
+        ApiResponse apiResponse = new ApiResponse();
+
+        String token = StringUtil.parseStringParam(request.getParameter("token"));
+        Map<String,Object> tokenMap = JwtUtil.parserJavaWebToken(token);
+
+        if (!tokenMap.isEmpty()){
+            apiResponse.setData(tokenMap);
+            apiResponse.setCode(1);
+        }
+        return apiResponse;
+    }
+
+
 }

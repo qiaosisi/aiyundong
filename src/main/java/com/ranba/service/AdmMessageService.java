@@ -7,9 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * Created by ZKP on 2017/6/20.
- */
 @Service
 public class AdmMessageService {
 

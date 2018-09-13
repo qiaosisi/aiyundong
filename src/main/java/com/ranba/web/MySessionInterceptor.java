@@ -24,7 +24,7 @@ public class MySessionInterceptor extends HandlerInterceptorAdapter {
             User user = (User) req.getSession().getAttribute("user");
 
             if (null == user) {
-                resp.sendRedirect("/");
+                resp.sendRedirect("/login");
                 logger.info("进入拦截器,但是没有用户信息");
                 return false;
             }
