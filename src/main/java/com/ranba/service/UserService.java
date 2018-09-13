@@ -45,13 +45,14 @@ public class UserService implements UserDetailsService{
     }
 
     // 根据手机号查找是否有该用户
-    public int selectByPhone(String phone){
+    public User selectByPhone(String phone){
         return userMapper.selectByPhone(phone);
     }
 
     // 插入新用户
-    public void insert(User user){
+    public int insert(User user){
         userMapper.insert(user);
+        return user.getId();
     }
 
     // 更新用户密码
