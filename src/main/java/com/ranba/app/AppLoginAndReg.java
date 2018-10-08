@@ -34,7 +34,7 @@ public class AppLoginAndReg {
     UserService userService;
 
     /**
-     * 接收登陆信息
+     * 接收登录信息
      *  */
     @PostMapping("/api/login")
     public ApiResponse login(HttpServletRequest request){
@@ -96,6 +96,7 @@ public class AppLoginAndReg {
         }
 
         apiResponse.setData(token);
+        apiResponse.setMessage(StringUtil.maskNumber(phone,3,6,2));
         apiResponse.setCode(1);
         return apiResponse;
     }
@@ -134,7 +135,10 @@ public class AppLoginAndReg {
 
         // 验证码
         String code = RanbaSequenceUtil.generateNumberString(6);
-        boolean flag = pushService.pushMessage(0, 2, phone , code);
+       // boolean flag = pushService.pushMessage(0, 2, phone , code);
+
+        /**test*/
+        boolean flag = true;
 
         if (flag) {
             // 信息表插入数据
